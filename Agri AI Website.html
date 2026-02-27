@@ -1,0 +1,2909 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>किसान महाराष्ट्र - संपूर्ण कृषी माहिती</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #f0f8f5, #e6f3e6);
+      margin: 0;
+      padding: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    
+    .header {
+      text-align: center;
+      background: linear-gradient(135deg, #006400, #228b22);
+      color: white;
+      padding: 20px;
+      border-radius: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 15px rgba(0,100,0,0.3);
+      position: relative;
+    }
+    
+    .krushisanvad-logo {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: white;
+      padding: 10px;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5em;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    
+    h1 {
+      font-size: 1.4em;
+      margin-bottom: 5px;
+    }
+    
+    .developer {
+      font-size: 0.9em;
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+    
+    .container {
+      max-width: 100%;
+      margin: auto;
+    }
+    
+    .app-content {
+      display: none;
+    }
+    
+    .app-content.active {
+      display: block;
+    }
+    
+    .section {
+      margin-bottom: 25px;
+      padding: 15px;
+      border: 1px solid #c8e6c9;
+      border-radius: 12px;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      animation: fadeIn 0.5s ease-in;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .section h2 {
+      color: #006400;
+      margin-bottom: 15px;
+      font-size: 1.2em;
+      text-align: center;
+      border-bottom: 2px solid #e8f5e8;
+      padding-bottom: 8px;
+    }
+    
+    /* 🔥 CHATBOT STYLES - ChatGPT Inspired */
+    .chatbot-section {
+      background: linear-gradient(135deg, #1a1a2e, #16213e) !important;
+      border: none !important;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .chatbot-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(74, 222, 128, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(96, 165, 250, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(192, 132, 252, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    
+    .chatbot-section h2 {
+      color: #4ade80 !important;
+      border-bottom: 2px solid #4ade80 !important;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .chatbot-container {
+      max-height: 500px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .chatbot-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .chatbot-avatar {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #4ade80, #22d3ee);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+    }
+    
+    .chatbot-info h3 {
+      color: #4ade80;
+      margin: 0;
+      font-size: 1.1em;
+    }
+    
+    .chatbot-info p {
+      color: #94a3b8;
+      font-size: 0.8em;
+      margin: 0;
+    }
+    
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      margin-bottom: 15px;
+      max-height: 300px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .message {
+      margin-bottom: 15px;
+      padding: 12px;
+      border-radius: 15px;
+      max-width: 80%;
+      word-wrap: break-word;
+      animation: messageSlide 0.3s ease-out;
+    }
+    
+    @keyframes messageSlide {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .bot-message {
+      background: linear-gradient(135deg, #374151, #4b5563);
+      color: white;
+      border-bottom-left-radius: 5px;
+      align-self: flex-start;
+      border: 1px solid rgba(74, 222, 128, 0.3);
+    }
+    
+    .user-message {
+      background: linear-gradient(135deg, #059669, #10b981);
+      color: white;
+      border-bottom-right-radius: 5px;
+      align-self: flex-end;
+      margin-left: auto;
+    }
+    
+    .message-time {
+      font-size: 0.7em;
+      color: #94a3b8;
+      text-align: right;
+      margin-top: 5px;
+    }
+    
+    .chat-input-container {
+      display: flex;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 10px;
+      border-radius: 25px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .chat-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: white;
+      padding: 12px 15px;
+      font-size: 14px;
+      outline: none;
+    }
+    
+    .chat-input::placeholder {
+      color: #94a3b8;
+    }
+    
+    .send-button {
+      background: linear-gradient(135deg, #4ade80, #22d3ee);
+      border: none;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+    
+    .send-button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px rgba(74, 222, 128, 0.5);
+    }
+    
+    .send-button:active {
+      transform: scale(0.95);
+    }
+    
+    .chat-suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    
+    .suggestion-chip {
+      background: rgba(74, 222, 128, 0.2);
+      color: #4ade80;
+      padding: 8px 12px;
+      border-radius: 20px;
+      font-size: 0.8em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(74, 222, 128, 0.3);
+    }
+    
+    .suggestion-chip:hover {
+      background: rgba(74, 222, 128, 0.3);
+      transform: translateY(-2px);
+    }
+    
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 10px;
+      color: #94a3b8;
+      font-style: italic;
+    }
+    
+    .typing-dots {
+      display: flex;
+      gap: 3px;
+    }
+    
+    .typing-dot {
+      width: 6px;
+      height: 6px;
+      background: #4ade80;
+      border-radius: 50%;
+      animation: typing 1.4s infinite ease-in-out;
+    }
+    
+    .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+    .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+    
+    @keyframes typing {
+      0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+      40% { transform: scale(1); opacity: 1; }
+    }
+    
+    /* Agri AI Auth Styles */
+    .krushisanvad-section {
+      background: linear-gradient(135deg, #e8f5e8, #c8e6c9);
+      padding: 25px;
+      border-radius: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 25px rgba(0,100,0,0.2);
+      text-align: center;
+      border: 3px solid #2e7d32;
+    }
+    
+    .krushisanvad-logo-large {
+      font-size: 3em;
+      margin-bottom: 15px;
+      background: linear-gradient(135deg, #2e7d32, #4caf50);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+    }
+    
+    .krushisanvad-title {
+      color: #2e7d32;
+      font-size: 1.8em;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    
+    .krushisanvad-subtitle {
+      color: #4caf50;
+      margin-bottom: 25px;
+      font-size: 1.1em;
+    }
+    
+    .auth-tabs {
+      display: flex;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .auth-tab {
+      flex: 1;
+      padding: 12px;
+      text-align: center;
+      background: #f8f9fa;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+    
+    .auth-tab.active {
+      background: #006400;
+      color: white;
+    }
+    
+    .auth-form {
+      display: none;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    
+    .auth-form.active {
+      display: block;
+    }
+    
+    .user-profile {
+      display: none;
+      text-align: center;
+      padding: 20px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+      border: 2px solid #4caf50;
+    }
+    
+    .user-profile.active {
+      display: block;
+      animation: slideDown 0.5s ease;
+    }
+    
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .profile-info {
+      margin: 15px 0;
+    }
+    
+    .profile-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .user-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #4caf50, #2e7d32);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2em;
+      margin: 0 auto 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    
+    /* Dashboard Styles */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 15px;
+      margin-top: 15px;
+    }
+    
+    .dashboard-card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      text-align: center;
+      border-left: 5px solid #4caf50;
+      transition: transform 0.3s ease;
+    }
+    
+    .dashboard-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .stat-card {
+      text-align: center;
+    }
+    
+    .stat-number {
+      font-size: 2.5em;
+      font-weight: bold;
+      color: #006400;
+      margin-bottom: 5px;
+    }
+    
+    .stat-label {
+      color: #666;
+      font-size: 0.9em;
+    }
+    
+    /* Quick Actions */
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin: 20px 0;
+    }
+    
+    .quick-action-btn {
+      padding: 15px;
+      background: white;
+      border: 2px solid #e8f5e8;
+      border-radius: 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .quick-action-btn:hover {
+      background: #e8f5e8;
+      border-color: #4caf50;
+      transform: scale(1.05);
+    }
+    
+    .action-icon {
+      font-size: 2em;
+      margin-bottom: 8px;
+    }
+    
+    /* Agri AI Community */
+    .community-card {
+      background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+      padding: 20px;
+      border-radius: 12px;
+      margin: 15px 0;
+      border-left: 5px solid #2196f3;
+    }
+    
+    .community-stats {
+      display: flex;
+      justify-content: space-around;
+      margin: 15px 0;
+    }
+    
+    .community-stat {
+      text-align: center;
+    }
+    
+    .community-number {
+      font-size: 1.8em;
+      font-weight: bold;
+      color: #1976d2;
+    }
+    
+    .community-label {
+      color: #666;
+      font-size: 0.8em;
+    }
+    
+    /* Form Styles */
+    .form-section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+    
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    
+    .input-group label {
+      font-weight: bold;
+      color: #2e7d32;
+      font-size: 0.9em;
+    }
+    
+    input, select, textarea {
+      padding: 12px;
+      border: 2px solid #4caf50;
+      border-radius: 8px;
+      font-size: 16px;
+      width: 100%;
+      background: #f9f9f9;
+    }
+    
+    textarea {
+      height: 100px;
+      resize: vertical;
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    button {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9em;
+      font-weight: bold;
+      cursor: pointer;
+      flex: 1;
+      min-width: 140px;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #006400, #228b22);
+      color: white;
+    }
+    
+    .btn-secondary {
+      background: linear-gradient(135deg, #ff9800, #f57c00);
+      color: white;
+    }
+    
+    .btn-info {
+      background: linear-gradient(135deg, #17a2b8, #138496);
+      color: white;
+    }
+    
+    .btn-warning {
+      background: linear-gradient(135deg, #ffc107, #e0a800);
+      color: black;
+    }
+    
+    .btn-success {
+      background: linear-gradient(135deg, #28a745, #20c997);
+      color: white;
+    }
+    
+    .btn-krushi {
+      background: linear-gradient(135deg, #2e7d32, #4caf50);
+      color: white;
+      border: 2px solid #1b5e20;
+    }
+    
+    button:active {
+      transform: scale(0.98);
+    }
+    
+    /* Card Styles */
+    .weather-card, .result-card, .suggestions-card, .info-card {
+      background: linear-gradient(135deg, #e8f5e8, #c8e6c9);
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 10px;
+      border-left: 5px solid #4caf50;
+    }
+    
+    .weather-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    
+    .weather-item {
+      background: white;
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 0.85em;
+    }
+    
+    table, th, td {
+      border: 1px solid #81c784;
+      padding: 8px;
+      text-align: center;
+    }
+    
+    th {
+      background: #4caf50;
+      color: white;
+      font-weight: bold;
+    }
+    
+    td {
+      background: #f9f9f9;
+    }
+    
+    .expert-card {
+      background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 10px;
+      border-left: 5px solid #2196f3;
+    }
+    
+    .disease-image-preview {
+      max-width: 100%;
+      max-height: 200px;
+      margin: 10px auto;
+      border-radius: 10px;
+      display: block;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    
+    .loading {
+      text-align: center;
+      color: #006400;
+      font-style: italic;
+      padding: 20px;
+    }
+    
+    .success {
+      background: #d4edda;
+      color: #155724;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      border-left: 5px solid #28a745;
+    }
+    
+    .error {
+      background: #f8d7da;
+      color: #721c24;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      border-left: 5px solid #dc3545;
+    }
+    
+    .warning {
+      background: #fff3cd;
+      color: #856404;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      border-left: 5px solid #ffc107;
+    }
+    
+    .chart-container {
+      position: relative;
+      height: 300px;
+      margin: 20px 0;
+    }
+    
+    .graph-controls {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .graph-btn {
+      padding: 8px 15px;
+      background: #f8f9fa;
+      border: 2px solid #6c757d;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.8em;
+    }
+    
+    .graph-btn.active {
+      background: #006400;
+      color: white;
+      border-color: #006400;
+    }
+    
+    .tips-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 15px;
+      margin-top: 15px;
+    }
+    
+    .tip-card {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      border-left: 4px solid #ff9800;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .crop-calendar {
+      background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+      padding: 15px;
+      border-radius: 10px;
+      margin: 10px 0;
+    }
+    
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    
+    .season-card {
+      background: white;
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    
+    .news-card {
+      background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 10px;
+      border-left: 5px solid #2196f3;
+    }
+    
+    .calculator-card {
+      background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+      padding: 15px;
+      border-radius: 10px;
+      margin: 10px 0;
+    }
+    
+    .calculator-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    
+    .calc-result {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    
+    .feedback-card {
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      padding: 15px;
+      border-radius: 10px;
+      margin: 10px 0;
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        max-width: 750px;
+      }
+      
+      .form-section {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+      
+      .input-group {
+        flex: 1;
+        min-width: 200px;
+      }
+      
+      .weather-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      
+      .tips-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      
+      .calendar-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      
+      .calculator-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .profile-actions {
+        flex-direction: row;
+      }
+      
+      .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .quick-actions {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="krushisanvad-logo">🌾</div>
+    <h1>🌾 किसान महाराष्ट्र - संपूर्ण कृषी माहिती 🌾</h1>
+    <div class="developer">Agri AI सिस्टीम सह</div>
+  </div>
+
+  <div class="container">
+    <!-- 🔐 Agri AI Login/Register Section (formerly KrushiSanvad) -->
+    <div class="section krushisanvad-section">
+      <div class="krushisanvad-logo-large">🌾</div>
+      <div class="krushisanvad-title">Agri AI</div>
+      <div class="krushisanvad-subtitle">किसानांचे डिजिटल सहकारी</div>
+      
+      <!-- User Profile (shown when logged in) -->
+      <div id="userProfile" class="user-profile">
+        <div class="user-avatar" id="userAvatar">👨‍🌾</div>
+        <h3 id="userGreeting">नमस्कार, किसान!</h3>
+        <div class="profile-info">
+          <p><strong>खाते प्रकार:</strong> <span id="userType">किसान</span></p>
+          <p><strong>स्थान:</strong> <span id="userLocation">महाराष्ट्र</span></p>
+          <p><strong>सदस्यता:</strong> <span id="userMembership">मोफत</span></p>
+          <p><strong>शेती क्षेत्र:</strong> <span id="userFarmArea">0 एकर</span></p>
+        </div>
+        <div class="profile-actions">
+          <button class="btn-krushi" onclick="krushiShowDashboard()">📊 Agri AI डॅशबोर्ड</button>
+          <button class="btn-info" onclick="krushiEditProfile()">✏️ प्रोफाइल संपादन</button>
+          <button class="btn-secondary" onclick="krushiLogout()">🚪 लॉगआउट</button>
+        </div>
+      </div>
+      
+      <!-- Auth Forms (shown when not logged in) -->
+      <div id="authForms">
+        <div class="auth-tabs">
+          <button class="auth-tab active" onclick="krushiShowAuthForm('login')">लॉगिन</button>
+          <button class="auth-tab" onclick="krushiShowAuthForm('register')">नोंदणी</button>
+        </div>
+        
+        <!-- Login Form -->
+        <div id="loginForm" class="auth-form active">
+          <div class="form-section">
+            <div class="input-group">
+              <label>ईमेल किंवा मोबाइल नंबर:</label>
+              <input type="text" id="loginEmail" placeholder="ईमेल किंवा मोबाइल">
+            </div>
+            <div class="input-group">
+              <label>पासवर्ड:</label>
+              <input type="password" id="loginPassword" placeholder="पासवर्ड">
+            </div>
+          </div>
+          <div class="button-group">
+            <button class="btn-krushi" onclick="krushiLogin()">🔐 Agri AI लॉगिन</button>
+            <button class="btn-info" onclick="krushiForgotPassword()">🔑 पासवर्ड विसरलात?</button>
+          </div>
+        </div>
+        
+        <!-- Register Form -->
+        <div id="registerForm" class="auth-form">
+          <div class="form-section">
+            <div class="input-group">
+              <label>पूर्ण नाव:</label>
+              <input type="text" id="regName" placeholder="तुमचे पूर्ण नाव">
+            </div>
+            <div class="input-group">
+              <label>मोबाइल नंबर:</label>
+              <input type="tel" id="regMobile" placeholder="१० अंकी मोबाइल नंबर">
+            </div>
+            <div class="input-group">
+              <label>ईमेल:</label>
+              <input type="email" id="regEmail" placeholder="ईमेल">
+            </div>
+            <div class="input-group">
+              <label>जिल्हा:</label>
+              <select id="regDistrict">
+                <option value="">-- जिल्हा निवडा --</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label>शेती क्षेत्र (एकर):</label>
+              <input type="number" id="regFarmArea" placeholder="एकरमध्ये">
+            </div>
+            <div class="input-group">
+              <label>पासवर्ड:</label>
+              <input type="password" id="regPassword" placeholder="किमान ६ अक्षरे">
+            </div>
+            <div class="input-group">
+              <label>पासवर्ड पुन्हा टाइप करा:</label>
+              <input type="password" id="regConfirmPassword" placeholder="पासवर्ड पुन्हा">
+            </div>
+          </div>
+          <div class="button-group">
+            <button class="btn-success" onclick="krushiRegister()">📝 Agri AI सदस्य व्हा</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main App Content (Visible after login) -->
+    <div id="appContent" class="app-content">
+      
+      <!-- 🤖 KrushiMitra Chatbot Section -->
+      <div class="section chatbot-section">
+        <h2>🤖 KrushiMitra - तुमचा कृषी सहाय्यक</h2>
+        <div class="chatbot-container">
+          <div class="chatbot-header">
+            <div class="chatbot-avatar">🤖</div>
+            <div class="chatbot-info">
+              <h3>KrushiMitra AI</h3>
+              <p>तुमच्या शेती संबंधित प्रश्न विचारा</p>
+            </div>
+          </div>
+          
+          <div class="chat-messages" id="chatMessages">
+            <div class="message bot-message">
+              <div>नमस्कार! मी KrushiMitra, तुमचा कृषी सहाय्यक. मी तुम्हाला खालील गोष्टींमध्ये मदत करू शकतो:</div>
+              <div style="margin-top: 8px;">
+                • 🌾 पिकनिवड आणि लागवड<br>
+                • 💧 सिंचन आणि पाणी व्यवस्थापन<br>
+                • 🐛 रोग आणि कीटक नियंत्रण<br>
+                • 💰 बाजारभाव आणि नफा गणना<br>
+                • 🏛️ सरकारी योजना माहिती
+              </div>
+              <div class="message-time" id="initialTime">आज, 10:00 AM</div>
+            </div>
+          </div>
+          
+          <div class="chat-suggestions">
+            <div class="suggestion-chip" onclick="sendSuggestion('सध्याचे बाजारभाव सांगा')">📊 बाजारभाव</div>
+            <div class="suggestion-chip" onclick="sendSuggestion('पावसाळ्यासाठी कोणती पिके चांगली?')">🌧️ पावसाळी पिके</div>
+            <div class="suggestion-chip" onclick="sendSuggestion('जैविक शेतीबद्दल माहिती द्या')">🌱 जैविक शेती</div>
+            <div class="suggestion-chip" onclick="sendSuggestion('सरकारी योजना कोणत्या आहेत?')">🏛️ योजना</div>
+          </div>
+          
+          <div class="chat-input-container">
+            <input type="text" class="chat-input" id="chatInput" placeholder="तुमचा प्रश्न टाइप करा..." onkeypress="handleChatInput(event)">
+            <button class="send-button" onclick="sendMessage()">
+              <span style="font-size: 1.2em;">↑</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agri AI Dashboard -->
+      <div class="section">
+        <h2>👨‍🌾 Agri AI डॅशबोर्ड</h2>
+        <div class="dashboard-grid">
+          <div class="dashboard-card stat-card">
+            <div class="stat-number" id="statCrops">0</div>
+            <div class="stat-label">सध्याची पिके</div>
+          </div>
+          <div class="dashboard-card stat-card">
+            <div class="stat-number" id="statProfit">₹0</div>
+            <div class="stat-label">एकूण नफा</div>
+          </div>
+          <div class="dashboard-card stat-card">
+            <div class="stat-number" id="statAlerts">0</div>
+            <div class="stat-label">सक्रिय अलर्ट</div>
+          </div>
+          <div class="dashboard-card stat-card">
+            <div class="stat-number" id="statExperience">0</div>
+            <div class="stat-label">शेती अनुभव (वर्ष)</div>
+          </div>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+          <div class="quick-action-btn" onclick="krushiQuickAction('weather')">
+            <div class="action-icon">🌤️</div>
+            <div>हवामान</div>
+          </div>
+          <div class="quick-action-btn" onclick="krushiQuickAction('prices')">
+            <div class="action-icon">💰</div>
+            <div>बाजारभाव</div>
+          </div>
+          <div class="quick-action-btn" onclick="krushiQuickAction('disease')">
+            <div class="action-icon">🦠</div>
+            <div>रोग ओळख</div>
+          </div>
+          <div class="quick-action-btn" onclick="krushiQuickAction('calculator')">
+            <div class="action-icon">🧮</div>
+            <div>नफा गणना</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agri AI Community -->
+      <div class="section">
+        <h2>👥 Agri AI समुदाय</h2>
+        <div class="community-card">
+          <h3>🌾 किसानांचे डिजिटल परिवार</h3>
+          <div class="community-stats">
+            <div class="community-stat">
+              <div class="community-number" id="communityFarmers">1,250+</div>
+              <div class="community-label">सक्रिय किसान</div>
+            </div>
+            <div class="community-stat">
+              <div class="community-number" id="communityExperts">45+</div>
+              <div class="community-label">कृषी तज्ञ</div>
+            </div>
+            <div class="community-stat">
+              <div class="community-number" id="communitySolutions">5,680+</div>
+              <div class="community-label">समस्या निराकरण</div>
+            </div>
+          </div>
+          <div class="button-group">
+            <button class="btn-krushi" onclick="krushiJoinCommunity()">👥 समुदायात सामील व्हा</button>
+            <button class="btn-info" onclick="krushiAskQuestion()">❓ प्रश्न विचारा</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 🌤️ Weather Section -->
+      <div class="section">
+        <h2>🌤️ हवामान माहिती - महाराष्ट्र</h2>
+        <div class="form-section">
+          <div class="input-group">
+            <label>शहर निवडा:</label>
+            <select id="citySelect">
+              <option value="">-- शहर निवडा --</option>
+            </select>
+          </div>
+          <div class="button-group">
+            <button class="btn-primary" onclick="getWeather()">हवामान मिळवा</button>
+            <button class="btn-info" onclick="showFarmingTips()">🧑‍🌾 शेती सल्ला</button>
+            <button class="btn-warning" onclick="krushiSetWeatherAlerts()">🔔 हवामान अलर्ट</button>
+          </div>
+        </div>
+        <div id="weatherInfo" class="weather-card">
+          <div class="success">शहर निवडा आणि हवामान मिळवा</div>
+        </div>
+        <div id="farmingTips" class="info-card" style="display: none;"></div>
+      </div>
+
+      <!-- 🛒 Crop Prices Section -->
+      <div class="section">
+        <h2>🛒 मंडी भाव - संपूर्ण महाराष्ट्र</h2>
+        
+        <!-- Quick Price Actions -->
+        <div class="quick-actions">
+          <div class="quick-action-btn" onclick="quickPriceCheck()">
+            <div class="action-icon">💰</div>
+            <div>त्वरित भाव तपासा</div>
+          </div>
+          <div class="quick-action-btn" onclick="loadCropPrices()">
+            <div class="action-icon">📊</div>
+            <div>सविस्तर भाव</div>
+          </div>
+          <div class="quick-action-btn" onclick="showCropCalendar()">
+            <div class="action-icon">📅</div>
+            <div>पीक कॅलेंडर</div>
+          </div>
+          <div class="quick-action-btn" onclick="krushiSetPriceAlerts()">
+            <div class="action-icon">🔔</div>
+            <div>भाव अलर्ट</div>
+          </div>
+        </div>
+        
+        <div class="form-section">
+          <div class="input-group">
+            <label>जिल्हा निवडा:</label>
+            <select id="districtSelect">
+              <option value="">-- जिल्हा निवडा --</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label>मंडी निवडा:</label>
+            <select id="marketSelect">
+              <option value="">-- मंडी निवडा --</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label>पीक निवडा:</label>
+            <select id="cropSelect">
+              <option value="">-- पीक निवडा --</option>
+            </select>
+          </div>
+        </div>
+        <div class="button-group">
+          <button class="btn-primary" onclick="loadCropPrices()">📊 भाव मिळवा</button>
+          <button class="btn-secondary" onclick="toggleAutoRefresh()" id="refreshBtn">🔄 Auto Refresh</button>
+          <button class="btn-info" onclick="showCropCalendar()">📅 पीक कॅलेंडर</button>
+          <button class="btn-warning" onclick="krushiSetPriceAlerts()">💰 भाव अलर्ट</button>
+        </div>
+
+        <table id="dataTable">
+          <thead>
+            <tr>
+              <th>दिनांक</th>
+              <th>मंडी</th>
+              <th>पीक</th>
+              <th>किंमत (₹/क्विंटल)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="4">कृपया मंडी आणि पीक निवडा</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Graph Controls -->
+        <div class="graph-controls">
+          <button class="graph-btn active" onclick="changeGraphType('line')">📈 लाइन ग्राफ</button>
+          <button class="graph-btn" onclick="changeGraphType('bar')">📊 बार ग्राफ</button>
+          <button class="graph-btn" onclick="changeGraphType('pie')">🥧 पाय ग्राफ</button>
+          <button class="graph-btn" onclick="downloadGraph()">💾 ग्राफ डाउनलोड</button>
+        </div>
+
+        <div class="chart-container">
+          <canvas id="priceChart"></canvas>
+        </div>
+
+        <div id="cropCalendar" class="crop-calendar" style="display: none;"></div>
+      </div>
+
+      <!-- 🦠 Crop Disease Detection -->
+      <div class="section">
+        <h2>🦠 पिकाच्या रोगांची अचूक ओळख</h2>
+        <div class="form-section">
+          <div class="input-group">
+            <label>पिकाची प्रतिमा निवडा:</label>
+            <input type="file" id="diseaseImage" accept="image/*" capture="camera" onchange="handleImageUpload(event)">
+          </div>
+          <div class="input-group">
+            <label>पीक प्रकार:</label>
+            <select id="cropTypeSelect">
+              <option value="">-- पीक निवडा --</option>
+            </select>
+          </div>
+        </div>
+        <div class="button-group">
+          <button class="btn-primary" onclick="analyzeDisease()">🔍 रोग ओळखा</button>
+          <button class="btn-secondary" onclick="clearImage()">❌ साफ करा</button>
+          <button class="btn-info" onclick="showPreventionTips()">🛡️ प्रतिबंध सल्ला</button>
+          <button class="btn-warning" onclick="krushiSetDiseaseAlerts()">⚠️ रोग अलर्ट</button>
+        </div>
+        <div id="imagePreview"></div>
+        <div id="diseaseResult" class="result-card"></div>
+        <div id="diseaseSuggestions" class="suggestions-card"></div>
+        <div id="preventionTips" class="info-card" style="display: none;"></div>
+      </div>
+
+      <!-- 🧮 Profit Calculator -->
+      <div class="section">
+        <h2>🧮 नफा कॅल्क्युलेटर</h2>
+        <div class="calculator-card">
+          <div class="form-section">
+            <div class="input-group">
+              <label>पीक निवडा:</label>
+              <select id="profitCropSelect">
+                <option value="">-- पीक निवडा --</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label>क्षेत्रफल (एकर):</label>
+              <input type="number" id="landArea" placeholder="एकरमध्ये">
+            </div>
+            <div class="input-group">
+              <label>अंदाजे उत्पादन (क्विंटल/एकर):</label>
+              <input type="number" id="expectedYield" placeholder="क्विंटल प्रति एकर">
+            </div>
+            <div class="input-group">
+              <label>बाजारभाव (₹/क्विंटल):</label>
+              <input type="number" id="marketPrice" placeholder="रुपये प्रति क्विंटल">
+            </div>
+          </div>
+          <div class="button-group">
+            <button class="btn-warning" onclick="calculateProfit()">🧮 नफा काढा</button>
+            <button class="btn-secondary" onclick="resetCalculator()">🔄 रीसेट</button>
+            <button class="btn-success" onclick="krushiSaveCalculation()">💾 Agri AI मध्ये सेव्ह करा</button>
+          </div>
+          <div id="profitResult" class="calc-result" style="display: none;"></div>
+        </div>
+      </div>
+
+      <!-- 📰 Agriculture News -->
+      <div class="section">
+        <h2>📰 कृषी बातम्या</h2>
+        <div class="news-card">
+          <h3>ताज्या कृषी बातम्या</h3>
+          <div id="newsContent">
+            <div class="loading">बातम्या लोड होत आहेत...</div>
+          </div>
+          <div class="button-group">
+            <button class="btn-info" onclick="loadNews()">🔄 नवीन बातम्या</button>
+            <button class="btn-warning" onclick="krushiGetSchemes()">🏛️ सरकारी योजना</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 🌱 Farming Information Section -->
+      <div class="section">
+        <h2>🌱 शेतीविषयी महत्वाची माहिती</h2>
+        
+        <div class="tips-grid">
+          <div class="tip-card">
+            <h3>💧 सिंचन तंत्रज्ञान</h3>
+            <p><strong>ड्रिप इरिगेशन:</strong> 60% पाणी वाचवते</p>
+            <p><strong>स्प्रिंकलर:</strong> 30-50% पाणी वाचवते</p>
+            <p><strong>सब-सर्फेस:</strong> बाष्पीभवन कमी करते</p>
+          </div>
+          
+          <div class="tip-card">
+            <h3>🌱 जैविक शेती</h3>
+            <p><strong>जैविक खते:</strong> कंपोस्ट, वर्मीकम्पोस्ट</p>
+            <p><strong>नैसर्गिक कीटकनाशके:</strong> नीम, गोमूत्र</p>
+            <p><strong>फेरफटका पद्धत:</strong> रोग कमी करते</p>
+          </div>
+          
+          <div class="tip-card">
+            <h3>💰 सबसिडी योजना</h3>
+            <p><strong>पीएम किसान:</strong> ₹6000/वर्ष</p>
+            <p><strong>कृषी उधार:</strong> 4% व्याजदर</p>
+            <p><strong>बियाणे सबसिडी:</strong> 50-80%</p>
+          </div>
+          
+          <div class="tip-card">
+            <h3>📈 बाजारभाव सुधारणा</h3>
+            <p><strong>ई-NAM:</strong> ऑनलाईन बाजार</p>
+            <p><strong>FPO:</strong> किसान उत्पादक संघ</p>
+            <p><strong>कॉन्ट्रॅक्ट फार्मिंग:</strong> निश्चित भाव</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 💬 Feedback Section -->
+      <div class="section">
+        <h2>💬 तुमचा अभिप्राय</h2>
+        <div class="feedback-card">
+          <div class="form-section">
+            <div class="input-group">
+              <label>तुमचे नाव:</label>
+              <input type="text" id="userName" placeholder="तुमचे नाव">
+            </div>
+            <div class="input-group">
+              <label>तुमचा ईमेल:</label>
+              <input type="email" id="userEmail" placeholder="ईमेल">
+            </div>
+          </div>
+          <div class="input-group">
+            <label>तुमचा अभिप्राय:</label>
+            <textarea id="userFeedback" placeholder="तुमचे सुझाव आणि अभिप्राय..."></textarea>
+          </div>
+          <div class="button-group">
+            <button class="btn-primary" onclick="submitFeedback()">📨 अभिप्राय पाठवा</button>
+            <button class="btn-info" onclick="krushiReportIssue()">🐛 समस्या नोंदवा</button>
+          </div>
+          <div id="feedbackMessage" style="display: none;"></div>
+        </div>
+      </div>
+
+      <!-- 👨‍🌾 Experts Section -->
+      <div class="section">
+        <h2>👨‍🌾 कृषी तज्ञ संपर्क - महाराष्ट्र</h2>
+        <div class="expert-card">
+          <strong>डॉ. संजय पाटील</strong><br>
+          💼 कृषी तज्ञ, पुणे<br>
+          📞 9876543210<br>
+          📧 drsanjay@krishi.com<br>
+          🕘 सकाळ १० - संध्याकाळ ६
+        </div>
+        <div class="expert-card">
+          <strong>श्री. अमोल देशमुख</strong><br>
+          💼 बाजार भाव सल्लागार, नागपूर<br>
+          📞 9123456780<br>
+          📧 amol@mandibhav.com<br>
+          🕘 सकाळ ९ - संध्याकाळ ५
+        </div>
+        <div class="expert-card">
+          <strong>डॉ. प्रिया शर्मा</strong><br>
+          💼 पिक संरक्षण तज्ञ, नाशिक<br>
+          📞 9456781230<br>
+          📧 drpriya@croppro.com<br>
+          🕘 सकाळ ११ - संध्याकाळ ७
+        </div>
+        <div class="button-group" style="margin-top: 15px;">
+          <button class="btn-success" onclick="krushiConnectWithExpert()">🤝 तज्ञांशी संपर्क करा</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ==================== GLOBAL VARIABLES ====================
+    let currentGraphType = 'line';
+    let priceChart = null;
+    let refreshInterval = null;
+
+    // ==================== AGRI AI AUTHENTICATION SYSTEM (formerly KrushiSanvad) ====================
+    
+    class KrushiSanvadSystem {
+      constructor() {
+        this.currentUser = null;
+        this.isLoggedIn = false;
+        this.init();
+      }
+
+      init() {
+        this.checkExistingSession();
+        this.populateDistricts();
+        this.populateCrops();
+        this.populateCities();
+        this.setupEventListeners();
+        this.loadNews();
+        
+        // Set initial time for chatbot
+        document.getElementById('initialTime').textContent = new Date().toLocaleTimeString('mr-IN', { 
+          hour: '2-digit', minute: '2-digit' 
+        });
+      }
+
+      // 🔐 Core Authentication Functions
+      async krushiLogin(email, password) {
+        try {
+          this.showLoading('Agri AI लॉगिन होत आहे...');
+          
+          if (!email || !password) {
+            throw new Error('कृपया ईमेल आणि पासवर्ड भरा');
+          }
+
+          // Simulate API call
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          
+          const users = this.getStoredUsers();
+          const user = users.find(u => 
+            (u.email === email || u.mobile === email) && u.password === password
+          );
+          
+          if (user) {
+            this.currentUser = user;
+            this.isLoggedIn = true;
+            localStorage.setItem('krushiCurrentUser', JSON.stringify(user));
+            this.updateUI();
+            this.showNotification('✅ Agri AI मध्ये यशस्वीरित्या लॉगिन केले!', 'success');
+            return true;
+          } else {
+            // Demo user for testing
+            if (email === "kisan" && password === "123456") {
+              const demoUser = {
+                id: 1,
+                name: "सAMPLE किसान",
+                email: "kisan@example.com",
+                mobile: "9876543210",
+                district: "पुणे",
+                farmArea: 5,
+                password: "123456",
+                krushiPoints: 100,
+                farmingExperience: 5,
+                farmDetails: [],
+                communityJoined: false
+              };
+              this.currentUser = demoUser;
+              this.isLoggedIn = true;
+              localStorage.setItem('krushiCurrentUser', JSON.stringify(demoUser));
+              
+              // Save to users list if not exists
+              const existingUsers = this.getStoredUsers();
+              if (!existingUsers.find(u => u.email === demoUser.email)) {
+                existingUsers.push(demoUser);
+                localStorage.setItem('krushiUsers', JSON.stringify(existingUsers));
+              }
+              
+              this.updateUI();
+              this.showNotification('✅ डेमो किसान म्हणून लॉगिन केले!', 'success');
+              return true;
+            }
+            throw new Error('अयोग्य ईमेल किंवा पासवर्ड');
+          }
+        } catch (error) {
+          this.showNotification(`❌ ${error.message}`, 'error');
+          return false;
+        }
+      }
+
+      async krushiRegister(userData) {
+        try {
+          this.showLoading('Agri AI नोंदणी होत आहे...');
+          
+          // Validation
+          if (!userData.name || userData.name.length < 2) {
+            throw new Error('कृपया वैध नाव टाका (किमान २ अक्षरे)');
+          }
+          
+          if (!userData.mobile || userData.mobile.length !== 10) {
+            throw new Error('कृपया वैध १० अंकी मोबाइल नंबर टाका');
+          }
+
+          if (!userData.email || !userData.email.includes('@')) {
+            throw new Error('कृपया वैध ईमेल टाका');
+          }
+
+          if (!userData.district) {
+            throw new Error('कृपया जिल्हा निवडा');
+          }
+
+          if (userData.password.length < 6) {
+            throw new Error('पासवर्ड किमान ६ अक्षरे असावा');
+          }
+
+          if (userData.password !== userData.confirmPassword) {
+            throw new Error('पासवर्ड जुळत नाही');
+          }
+
+          // Simulate API call
+          await new Promise(resolve => setTimeout(resolve, 1500));
+          
+          const newUser = {
+            id: Date.now(),
+            ...userData,
+            registrationDate: new Date().toLocaleDateString('mr-IN'),
+            farmDetails: [],
+            subscriptions: [],
+            alerts: [],
+            preferences: {},
+            krushiPoints: 100,
+            communityJoined: false,
+            farmingExperience: Math.floor(Math.random() * 20) + 1
+          };
+          
+          // Store user
+          const users = this.getStoredUsers();
+          
+          // Check if user already exists
+          if (users.find(u => u.email === userData.email || u.mobile === userData.mobile)) {
+            throw new Error('हे ईमेल किंवा मोबाइल आधीच वापरात आहे');
+          }
+          
+          users.push(newUser);
+          localStorage.setItem('krushiUsers', JSON.stringify(users));
+          
+          // Auto login
+          this.currentUser = newUser;
+          this.isLoggedIn = true;
+          localStorage.setItem('krushiCurrentUser', JSON.stringify(newUser));
+          
+          this.updateUI();
+          this.showNotification('🎉 Agri AI मध्ये यशस्वीरित्या सामील झालात! 100 KrushiPoints मिळाले!', 'success');
+          return true;
+          
+        } catch (error) {
+          this.showNotification(`❌ ${error.message}`, 'error');
+          return false;
+        }
+      }
+
+      krushiLogout() {
+        this.currentUser = null;
+        this.isLoggedIn = false;
+        localStorage.removeItem('krushiCurrentUser');
+        this.updateUI();
+        this.showNotification('🚪 Agri AI मधून यशस्वीरित्या लॉगआउट केले', 'info');
+      }
+
+      async krushiForgotPassword() {
+        const email = document.getElementById('loginEmail').value;
+        if (!email) {
+          this.showNotification('❌ कृपया ईमेल टाका', 'error');
+          return;
+        }
+        this.showNotification(`📧 पासवर्ड रीसेट लिंक ${email} वर पाठवला गेला`, 'info');
+      }
+
+      // 👤 User Profile Functions
+      async krushiUpdateProfile(profileData) {
+        if (!this.isLoggedIn) return;
+        
+        this.currentUser = { ...this.currentUser, ...profileData };
+        localStorage.setItem('krushiCurrentUser', JSON.stringify(this.currentUser));
+        
+        // Update in users list
+        const users = this.getStoredUsers();
+        const userIndex = users.findIndex(u => u.id === this.currentUser.id);
+        if (userIndex !== -1) {
+          users[userIndex] = this.currentUser;
+          localStorage.setItem('krushiUsers', JSON.stringify(users));
+        }
+        
+        this.updateUI();
+        this.showNotification('✅ प्रोफाइल यशस्वीरित्या अपडेट केली', 'success');
+      }
+
+      krushiGetProfile() {
+        return this.currentUser;
+      }
+
+      // 🌾 Agriculture Specific Functions
+      async krushiSaveFarmDetails(farmData) {
+        if (!this.isLoggedIn) return;
+        
+        if (!this.currentUser.farmDetails) {
+          this.currentUser.farmDetails = [];
+        }
+        
+        this.currentUser.farmDetails.push({
+          id: Date.now(),
+          ...farmData,
+          addedDate: new Date().toLocaleDateString('mr-IN')
+        });
+        
+        this.currentUser.krushiPoints += 50;
+        
+        this.krushiUpdateProfile(this.currentUser);
+        this.showNotification('✅ शेती माहिती सेव्ह केली +50 KrushiPoints!', 'success');
+      }
+
+      async krushiAddCropInfo(cropData) {
+        if (!this.isLoggedIn) return;
+        
+        const farmDetails = this.currentUser.farmDetails || [];
+        if (farmDetails.length === 0) {
+          this.showNotification('⚠️ प्रथम शेती माहिती जोडा', 'warning');
+          return;
+        }
+        
+        const latestFarm = farmDetails[farmDetails.length - 1];
+        if (!latestFarm.crops) latestFarm.crops = [];
+        
+        latestFarm.crops.push({
+          id: Date.now(),
+          ...cropData,
+          plantedDate: new Date().toLocaleDateString('mr-IN')
+        });
+        
+        this.currentUser.krushiPoints += 25;
+        
+        this.krushiUpdateProfile(this.currentUser);
+        this.showNotification('✅ पीक माहिती जोडली +25 KrushiPoints!', 'success');
+      }
+
+      // 🔔 Notification Functions
+      krushiSetWeatherAlerts() {
+        if (!this.isLoggedIn) {
+          this.showNotification('⚠️ ही सुविधा वापरण्यासाठी Agri AI मध्ये लॉगिन करा', 'warning');
+          return;
+        }
+        
+        this.currentUser.alerts = this.currentUser.alerts || [];
+        this.currentUser.alerts.push({
+          type: 'weather',
+          active: true,
+          created: new Date().toLocaleDateString('mr-IN')
+        });
+        
+        this.krushiUpdateProfile(this.currentUser);
+        this.showNotification('🌤️ हवामान अलर्ट सक्रिय केले', 'success');
+      }
+
+      krushiSetPriceAlerts() {
+        if (!this.isLoggedIn) {
+          this.showNotification('⚠️ ही सुविधा वापरण्यासाठी Agri AI मध्ये लॉगिन करा', 'warning');
+          return;
+        }
+        
+        const crop = document.getElementById('cropSelect').value;
+        if (!crop) {
+          this.showNotification('⚠️ प्रथम पीक निवडा', 'warning');
+          return;
+        }
+        
+        this.currentUser.alerts = this.currentUser.alerts || [];
+        this.currentUser.alerts.push({
+          type: 'price',
+          crop: crop,
+          active: true,
+          created: new Date().toLocaleDateString('mr-IN')
+        });
+        
+        this.krushiUpdateProfile(this.currentUser);
+        this.showNotification(`💰 ${crop} साठी भाव अलर्ट सक्रिय केले`, 'success');
+      }
+
+      krushiSetDiseaseAlerts() {
+        if (!this.isLoggedIn) {
+          this.showNotification('⚠️ ही सुविधा वापरण्यासाठी Agri AI मध्ये लॉगिन करा', 'warning');
+          return;
+        }
+        
+        this.currentUser.alerts = this.currentUser.alerts || [];
+        this.currentUser.alerts.push({
+          type: 'disease',
+          active: true,
+          created: new Date().toLocaleDateString('mr-IN')
+        });
+        
+        this.krushiUpdateProfile(this.currentUser);
+        this.showNotification('🦠 रोग अलर्ट सक्रिय केले', 'success');
+      }
+
+      // 📊 Dashboard Functions
+      krushiShowDashboard() {
+        if (!this.isLoggedIn) return;
+        this.updateDashboardStats();
+      }
+
+      updateDashboardStats() {
+        if (!this.currentUser) return;
+        
+        const farmDetails = this.currentUser.farmDetails || [];
+        const currentCrops = farmDetails.flatMap(farm => farm.crops || []).length;
+        
+        // Calculate total profit from farm details
+        const totalProfit = farmDetails.reduce((sum, farm) => {
+          const farmProfit = farm.crops ? farm.crops.reduce((cropSum, crop) => {
+            return cropSum + (crop.estimatedProfit || 0);
+          }, 0) : 0;
+          return sum + farmProfit;
+        }, 0);
+        
+        const activeAlerts = this.currentUser.alerts ? this.currentUser.alerts.length : 0;
+        const experience = this.currentUser.farmingExperience || 0;
+        
+        document.getElementById('statCrops').textContent = currentCrops;
+        document.getElementById('statProfit').textContent = `₹${totalProfit}`;
+        document.getElementById('statAlerts').textContent = activeAlerts;
+        document.getElementById('statExperience').textContent = experience;
+      }
+
+      // 👥 Community Functions
+      async krushiJoinCommunity() {
+        if (!this.isLoggedIn) {
+          this.showNotification('⚠️ समुदायात सामील व्हायचे असेल तर प्रथम लॉगिन करा', 'warning');
+          return;
+        }
+        
+        this.currentUser.communityJoined = true;
+        this.currentUser.krushiPoints += 100;
+        this.krushiUpdateProfile(this.currentUser);
+        
+        this.showNotification('👥 Agri AI समुदायात यशस्वीरित्या सामील झालात! +100 KrushiPoints!', 'success');
+      }
+
+      async krushiAskQuestion() {
+        if (!this.isLoggedIn) {
+          this.showNotification('⚠️ प्रश्न विचारायचे असल्यास प्रथम लॉगिन करा', 'warning');
+          return;
+        }
+        
+        const question = prompt('तुमचा कृषी संबंधित प्रश्न टाका:');
+        if (question) {
+          this.currentUser.krushiPoints += 10;
+          this.krushiUpdateProfile(this.currentUser);
+          this.showNotification('❓ प्रश्न विचारला गेला! +10 KrushiPoints', 'success');
+        }
+      }
+
+      // 🏛️ Government Schemes
+      async krushiGetSchemes() {
+        this.showNotification('🏛️ सरकारी योजना माहिती लोड होत आहे...', 'info');
+        
+        setTimeout(() => {
+          const schemes = [
+            'पीएम किसान समृद्धी योजना - ₹6000/वर्ष',
+            'राष्ट्रीय कृषि विकास योजना - 50% सबसिडी',
+            'किसान क्रेडिट कार्ड - 4% व्याजदर',
+            'मृदा स्वास्थ्य कार्ड - मोफत चाचणी'
+          ];
+          
+          alert(`📜 Agri AI मधील उपलब्ध योजना:\n\n${schemes.join('\n')}\n\n🔗 अर्जासाठी: https://kisan.gov.in`);
+        }, 1000);
+      }
+
+      // 🔧 Utility Functions
+      checkExistingSession() {
+        const storedUser = localStorage.getItem('krushiCurrentUser');
+        if (storedUser) {
+          this.currentUser = JSON.parse(storedUser);
+          this.isLoggedIn = true;
+          this.updateUI();
+        }
+      }
+
+      getStoredUsers() {
+        return JSON.parse(localStorage.getItem('krushiUsers') || '[]');
+      }
+
+      populateDistricts() {
+        // Replaced "औरंगाबाद" with "छत्रपती संभाजीनगर"
+        const districts = [
+          "पुणे", "नागपूर", "नाशिक", "छत्रपती संभाजीनगर", "कोल्हापूर", "सांगली", "सोलापूर", 
+          "अमरावती", "लातूर", "धुळे", "जालना", "वाशिम", "बीड", "उस्मानाबाद", "सातारा"
+        ];
+        
+        const select = document.getElementById('regDistrict');
+        if (select) {
+          districts.forEach(district => {
+            const option = document.createElement('option');
+            option.value = district;
+            option.textContent = district;
+            select.appendChild(option);
+          });
+        }
+
+        const districtSelect = document.getElementById('districtSelect');
+        if (districtSelect) {
+          districts.forEach(district => {
+            const option = document.createElement('option');
+            option.value = district;
+            option.textContent = district;
+            districtSelect.appendChild(option);
+          });
+        }
+      }
+
+      populateCrops() {
+        const crops = [
+          "गहू", "ज्वारी", "बाजरी", "मका", "तूर", "हरभरा", "सोयाबीन", "कापूस",
+          "कांदा", "टोमॅटो", "मिरची", "बटाटा", "साखर", "भुईमूग", "वांगी", "कार्ले"
+        ];
+        
+        const cropSelects = ['cropSelect', 'cropTypeSelect', 'profitCropSelect'];
+        
+        cropSelects.forEach(selectId => {
+          const select = document.getElementById(selectId);
+          if (select) {
+            // Clear existing options
+            select.innerHTML = '<option value="">-- पीक निवडा --</option>';
+            
+            crops.forEach(crop => {
+              const option = document.createElement('option');
+              option.value = crop;
+              option.textContent = crop;
+              select.appendChild(option);
+            });
+          }
+        });
+      }
+
+      populateCities() {
+        // Replaced "औरंगाबाद" with "छत्रपती संभाजीनगर"
+        const cities = ["पुणे", "नागपूर", "नाशिक", "छत्रपती संभाजीनगर", "कोल्हापूर", "सोलापूर"];
+        
+        const citySelect = document.getElementById('citySelect');
+        if (citySelect) {
+          cities.forEach(city => {
+            const option = document.createElement('option');
+            option.value = city;
+            option.textContent = city;
+            citySelect.appendChild(option);
+          });
+        }
+      }
+
+      updateUI() {
+        const authForms = document.getElementById('authForms');
+        const userProfile = document.getElementById('userProfile');
+        const appContent = document.getElementById('appContent');
+        
+        if (this.isLoggedIn && this.currentUser) {
+          authForms.style.display = 'none';
+          userProfile.classList.add('active');
+          appContent.classList.add('active');
+          
+          document.getElementById('userGreeting').textContent = `नमस्कार, ${this.currentUser.name}!`;
+          document.getElementById('userType').textContent = 'Agri AI किसान';
+          document.getElementById('userLocation').textContent = this.currentUser.district || 'महाराष्ट्र';
+          document.getElementById('userMembership').textContent = this.currentUser.krushiPoints ? `KrushiPoints: ${this.currentUser.krushiPoints}` : 'मोफत';
+          document.getElementById('userFarmArea').textContent = `${this.currentUser.farmArea || 0} एकर`;
+          document.getElementById('userAvatar').textContent = '👨‍🌾';
+          
+          this.updateDashboardStats();
+          this.updateCommunityStats();
+        } else {
+          authForms.style.display = 'block';
+          userProfile.classList.remove('active');
+          appContent.classList.remove('active');
+        }
+      }
+
+      updateCommunityStats() {
+        document.getElementById('communityFarmers').textContent = '1,250+';
+        document.getElementById('communityExperts').textContent = '45+';
+        document.getElementById('communitySolutions').textContent = '5,680+';
+      }
+
+      showNotification(message, type) {
+        const notification = document.createElement('div');
+        notification.className = type;
+        notification.innerHTML = message;
+        notification.style.cssText = `
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          z-index: 1000;
+          max-width: 300px;
+          animation: slideIn 0.3s ease;
+        `;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+          notification.remove();
+        }, 4000);
+      }
+
+      showLoading(message) {
+        console.log(`Agri AI Loading: ${message}`);
+      }
+
+      setupEventListeners() {
+        document.getElementById('loginPassword')?.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') krushiLogin();
+        });
+
+        document.getElementById('regConfirmPassword')?.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') krushiRegister();
+        });
+      }
+
+      // Quick Actions
+      krushiQuickAction(action) {
+        const sections = {
+          'weather': 'citySelect',
+          'prices': 'districtSelect', 
+          'disease': 'diseaseImage',
+          'calculator': 'profitCropSelect'
+        };
+        
+        const element = document.getElementById(sections[action]);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+
+      // Additional Agri AI Features
+      krushiSaveCalculation() {
+        if (!this.isLoggedIn) {
+          this.showNotification('⚠️ ही सुविधा वापरण्यासाठी Agri AI मध्ये लॉगिन करा', 'warning');
+          return;
+        }
+        
+        const profitResult = document.getElementById('profitResult');
+        if (profitResult.style.display === 'none') {
+          this.showNotification('⚠️ प्रथम नफा गणना करा', 'warning');
+          return;
+        }
+        
+        this.showNotification('💾 गणना Agri AI मध्ये सेव्ह केली', 'success');
+      }
+
+      krushiReportIssue() {
+        const issue = prompt('तुमची समस्या किंवा सूचना:');
+        if (issue) {
+          this.showNotification('🐛 समस्या Agri AI मध्ये नोंदवली गेली', 'success');
+        }
+      }
+
+      krushiConnectWithExpert() {
+        this.showNotification('🤝 तज्ञांशी संपर्क साधला जाईल', 'info');
+      }
+
+      loadNews() {
+        const newsContent = document.getElementById('newsContent');
+        if (!newsContent) return;
+        
+        const news = [
+          {
+            title: '🌾 महाराष्ट्रात कापूस उत्पादन वाढ',
+            content: 'या वर्षी कापूस उत्पादनात 15% वाढ झाल्याचे अंदाज...',
+            date: new Date().toLocaleDateString('mr-IN')
+          },
+          {
+            title: '💧 नवीन सिंचन योजना जाहीर',
+            content: 'केंद्र सरकारने 5000 कोटीची सिंचन योजना जाहीर केली आहे...',
+            date: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toLocaleDateString('mr-IN')
+          },
+          {
+            title: '🛒 ई-NAM मार्फत रेकॉर्ड विक्री',
+            content: 'महाराष्ट्रातील किसानांनी ई-NAM मार्फत 1000 कोटीची विक्री केली...',
+            date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toLocaleDateString('mr-IN')
+          }
+        ];
+        
+        let newsHTML = '';
+        news.forEach(item => {
+          newsHTML += `
+            <div class="tip-card" style="margin-bottom: 10px;">
+              <h4>${item.title}</h4>
+              <p>${item.content}</p>
+              <small><strong>तारीख:</strong> ${item.date}</small>
+            </div>
+          `;
+        });
+        
+        newsContent.innerHTML = newsHTML;
+      }
+    }
+
+    // ==================== CHATBOT FUNCTIONALITY ====================
+    
+    class KrushiMitraChatbot {
+      constructor() {
+        this.messages = [];
+        this.isTyping = false;
+        this.init();
+      }
+
+      init() {
+        // Initial bot message is already in HTML
+      }
+
+      addMessage(message, isUser = false) {
+        const messageObj = {
+          text: message,
+          isUser: isUser,
+          timestamp: new Date().toLocaleTimeString('mr-IN', { hour: '2-digit', minute: '2-digit' })
+        };
+        
+        this.messages.push(messageObj);
+        this.renderMessages();
+        
+        if (!isUser) {
+          this.scrollToBottom();
+        }
+      }
+
+      addBotMessage(message) {
+        this.addMessage(message, false);
+      }
+
+      addUserMessage(message) {
+        this.addMessage(message, true);
+        
+        this.showTypingIndicator();
+        
+        setTimeout(() => {
+          this.hideTypingIndicator();
+          this.generateResponse(message);
+        }, 1500);
+      }
+
+      showTypingIndicator() {
+        this.isTyping = true;
+        this.renderMessages();
+        this.scrollToBottom();
+      }
+
+      hideTypingIndicator() {
+        this.isTyping = false;
+        this.renderMessages();
+      }
+
+      renderMessages() {
+        const chatMessages = document.getElementById('chatMessages');
+        if (!chatMessages) return;
+        
+        chatMessages.innerHTML = '';
+
+        this.messages.forEach(message => {
+          const messageDiv = document.createElement('div');
+          messageDiv.className = `message ${message.isUser ? 'user-message' : 'bot-message'}`;
+          messageDiv.innerHTML = `
+            <div>${message.text.replace(/\n/g, '<br>')}</div>
+            <div class="message-time">${message.timestamp}</div>
+          `;
+          chatMessages.appendChild(messageDiv);
+        });
+
+        if (this.isTyping) {
+          const typingDiv = document.createElement('div');
+          typingDiv.className = 'typing-indicator';
+          typingDiv.innerHTML = `
+            <div>KrushiMitra टाइप करत आहे</div>
+            <div class="typing-dots">
+              <div class="typing-dot"></div>
+              <div class="typing-dot"></div>
+              <div class="typing-dot"></div>
+            </div>
+          `;
+          chatMessages.appendChild(typingDiv);
+        }
+      }
+
+      scrollToBottom() {
+        const chatMessages = document.getElementById('chatMessages');
+        if (chatMessages) {
+          setTimeout(() => {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+          }, 100);
+        }
+      }
+
+      generateResponse(userMessage) {
+        const lowerMessage = userMessage.toLowerCase();
+        let response = "";
+
+        if (lowerMessage.includes('नमस्कार') || lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
+          response = "नमस्कार! मी KrushiMitra. तुम्हाला शेती संबंधित कोणती मदत हवी आहे?";
+        }
+        else if (lowerMessage.includes('बाजारभाव') || lowerMessage.includes('भाव') || lowerMessage.includes('किंमत')) {
+          response = "📊 **सध्याचे बाजारभाव (आजचे):**\n\n• गहू: ₹2,800-3,200/क्विंटल\n• ज्वारी: ₹3,200-3,800/क्विंटल\n• सोयाबीन: ₹4,500-5,200/क्विंटल\n• कापूस: ₹6,500-7,500/क्विंटल\n• कांदा: ₹1,200-1,800/क्विंटल\n\n🔔 वास्तविक भावासाठी मंडी निवडा किंवा ई-NAM चेक करा.";
+        }
+        else if (lowerMessage.includes('पावसाळ') || lowerMessage.includes('खरीप')) {
+          response = "🌧️ **पावसाळ्यासाठी योग्य पिके:**\n\n✅ **शिफारस केलेली पिके:**\n• भात (धान)\n• ज्वारी\n• बाजरी\n• सोयाबीन\n• कापूस\n• तूर\n• उडीद\n\n💡 **सल्ला:** पावसाळ्यासाठी ड्रेनेज चांगले असलेली जमीन निवडा.";
+        }
+        else if (lowerMessage.includes('जैविक') || lowerMessage.includes('ऑर्गेनिक')) {
+          response = "🌱 **जैविक शेती माहिती:**\n\n**फायदे:**\n• पर्यावरणास अनुकूल\n• दीर्घकाळ टिकाऊ\n• उत्पादनाची चांगली किंमत\n\n**उपाय:**\n• कंपोस्ट खत वापरा\n• वर्मीकम्पोस्ट तयार करा\n• नीम तेल कीटकनाशक म्हणून वापरा\n• गोमूत्र स्प्रे वापरा\n\n**सरकारी सहाय्य:** 50% सबसिडी उपलब्ध";
+        }
+        else if (lowerMessage.includes('योजना') || lowerMessage.includes('सबसिडी') || lowerMessage.includes('सरकारी')) {
+          response = "🏛️ **कृषी योजना:**\n\n**1. पीएम किसान योजना**\n• ₹6,000/वर्ष प्रत्यक्ष हस्तांतरण\n• सर्व लहान आणि सीमांत शेतकरी\n\n**2. किसान क्रेडिट कार्ड**\n• 4% व्याजदर\n• सहज कर्ज उपलब्धता\n\n**3. प्रधानमंत्री फसल बीमा योजना**\n• नैसर्गिक आपत्ती विरुद्ध संरक्षण\n• प्रीमियम: 1.5-2%\n\n**4. परंपरागत कृषि विकास योजना**\n• जैविक शेतीसाठी 50% सबसिडी";
+        }
+        else if (lowerMessage.includes('रोग') || lowerMessage.includes('कीटक') || lowerMessage.includes('आजार')) {
+          response = "🦠 **रोग आणि कीटक नियंत्रण:**\n\n**सामान्य समस्या:**\n• पानांवर डाग\n• पिवळे पाने\n• किडे आणि कीटक\n• मुळांना त्रास\n\n**नैसर्गिक उपाय:**\n• नीम तेल स्प्रे (5%)\n• गोमूत्र + तूप काढा\n• लसण-मिरची स्प्रे\n• मित्र कीटक वापरा\n\n**तज्ञ सल्ला:** जवळच्या कृषी अधिकाऱ्याशी संपर्क करा";
+        }
+        else if (lowerMessage.includes('पाणी') || lowerMessage.includes('सिंचन') || lowerMessage.includes('इरिगेशन')) {
+          response = "💧 **सिंचन सल्ला:**\n\n**कार्यक्षम पद्धती:**\n• ड्रिप इरिगेशन (60% पाणी बचत)\n• स्प्रिंकलर सिस्टीम (30-50% बचत)\n• सब-सर्फेस इरिगेशन\n\n**वेळ:**\n• सकाळी किंवा संध्याकाळी पाणी द्या\n• उन्हाळ्यात अधिक वेळा पाणी द्या\n\n**सरकारी सहाय्य:** ड्रिप इरिगेशनसाठी 80% सबसिडी";
+        }
+        else if (lowerMessage.includes('नफा') || lowerMessage.includes('मुनाफा') || lowerMessage.includes('उत्पन्न')) {
+          response = "💰 **नफा वाढवण्याचे उपाय:**\n\n1. **मिश्र पिकाकडे वळा** - एकाच वेळी एकापेक्षा अधिक पिके\n2. **कॉन्ट्रॅक्ट फार्मिंग** - निश्चित भाव मिळवा\n3. **मूल्यवर्धित उत्पादने** - प्रोसेसिंग करून विक्री\n4. **FPO मध्ये सामील व्हा** - सामूहिक विक्री\n5. **ई-NAM वापरा** - ऑनलाईन बाजारपेठ\n\n📈 सरासरी नफा: 20-40% उत्पादन खर्चावर";
+        }
+        else if (lowerMessage.includes('धन्यवाद') || lowerMessage.includes('thanks') || lowerMessage.includes('thank you')) {
+          response = "👍 आभार! आणखी काही मदत हवी असल्यास मला कळवा. शुभेच्छा! 🌾";
+        }
+        else {
+          response = "मला क्षमा करा, मी तुमचा प्रश्न पूर्णपणे समजू शकलो नाही. कृपया तुमचा प्रश्न पुन्हा टाइप करा किंवा खालीलपैकी एक विषय निवडा:\n\n• बाजारभाव\n• पिकनिवड\n• रोग नियंत्रण\n• सिंचन\n• सरकारी योजना\n• नफा गणना";
+        }
+
+        this.addBotMessage(response);
+      }
+
+      sendUserMessage(message) {
+        if (message.trim() === '') return;
+        
+        this.addUserMessage(message);
+        document.getElementById('chatInput').value = '';
+        
+        // Scroll to bottom
+        this.scrollToBottom();
+      }
+    }
+
+    // ==================== MAIN APPLICATION ====================
+
+    // Initialize Systems
+    const krushiSanvad = new KrushiSanvadSystem();
+    const krushiMitra = new KrushiMitraChatbot();
+
+    // Global Functions for HTML onclick
+    function krushiShowAuthForm(formType) {
+      document.querySelectorAll('.auth-tab').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
+      
+      const tabIndex = formType === 'login' ? 1 : 2;
+      const tabs = document.querySelectorAll('.auth-tab');
+      if (tabs.length >= tabIndex) {
+        tabs[tabIndex - 1].classList.add('active');
+      }
+      
+      document.getElementById(`${formType}Form`).classList.add('active');
+    }
+
+    function krushiLogin() {
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      
+      if (!email || !password) {
+        krushiSanvad.showNotification('❌ कृपया ईमेल आणि पासवर्ड भरा', 'error');
+        return;
+      }
+      
+      krushiSanvad.krushiLogin(email, password);
+    }
+
+    function krushiRegister() {
+      const userData = {
+        name: document.getElementById('regName').value,
+        mobile: document.getElementById('regMobile').value,
+        email: document.getElementById('regEmail').value,
+        district: document.getElementById('regDistrict').value,
+        farmArea: parseInt(document.getElementById('regFarmArea').value) || 0,
+        password: document.getElementById('regPassword').value,
+        confirmPassword: document.getElementById('regConfirmPassword').value
+      };
+      
+      krushiSanvad.krushiRegister(userData);
+    }
+
+    function krushiLogout() {
+      krushiSanvad.krushiLogout();
+    }
+
+    function krushiForgotPassword() {
+      krushiSanvad.krushiForgotPassword();
+    }
+
+    function krushiShowDashboard() {
+      krushiSanvad.krushiShowDashboard();
+    }
+
+    function krushiEditProfile() {
+      const newName = prompt('नवीन नाव:', krushiSanvad.currentUser?.name);
+      if (newName) {
+        krushiSanvad.krushiUpdateProfile({ name: newName });
+      }
+    }
+
+    function krushiJoinCommunity() {
+      krushiSanvad.krushiJoinCommunity();
+    }
+
+    function krushiAskQuestion() {
+      krushiSanvad.krushiAskQuestion();
+    }
+
+    function krushiSetWeatherAlerts() {
+      krushiSanvad.krushiSetWeatherAlerts();
+    }
+
+    function krushiSetPriceAlerts() {
+      krushiSanvad.krushiSetPriceAlerts();
+    }
+
+    function krushiSetDiseaseAlerts() {
+      krushiSanvad.krushiSetDiseaseAlerts();
+    }
+
+    function krushiGetSchemes() {
+      krushiSanvad.krushiGetSchemes();
+    }
+
+    function krushiSaveCalculation() {
+      krushiSanvad.krushiSaveCalculation();
+    }
+
+    function krushiReportIssue() {
+      krushiSanvad.krushiReportIssue();
+    }
+
+    function krushiConnectWithExpert() {
+      krushiSanvad.krushiConnectWithExpert();
+    }
+
+    function krushiQuickAction(action) {
+      krushiSanvad.krushiQuickAction(action);
+    }
+
+    // Chatbot Functions
+    function sendMessage() {
+      const input = document.getElementById('chatInput');
+      const message = input.value.trim();
+      
+      if (message) {
+        krushiMitra.sendUserMessage(message);
+      }
+    }
+
+    function handleChatInput(event) {
+      if (event.key === 'Enter') {
+        sendMessage();
+      }
+    }
+
+    function sendSuggestion(suggestion) {
+      document.getElementById('chatInput').value = suggestion;
+      sendMessage();
+    }
+
+    // ==================== WEATHER FUNCTIONS ====================
+
+    function getWeather() {
+      const citySelect = document.getElementById('citySelect');
+      if (!citySelect) {
+        console.error('citySelect element not found');
+        return;
+      }
+      
+      const city = citySelect.value;
+      if (!city) {
+        krushiSanvad.showNotification('❌ कृपया शहर निवडा', 'error');
+        return;
+      }
+      
+      // Updated weather data with "छत्रपती संभाजीनगर"
+      const weatherData = {
+        "पुणे": { temp: 26, humidity: 68, wind: 8, condition: "सौम्य", rain: "20%" },
+        "नागपूर": { temp: 34, humidity: 45, wind: 6, condition: "उष्ण", rain: "5%" },
+        "नाशिक": { temp: 24, humidity: 75, wind: 12, condition: "थंड", rain: "30%" },
+        "छत्रपती संभाजीनगर": { temp: 32, humidity: 52, wind: 10, condition: "सौम्य", rain: "15%" },
+        "कोल्हापूर": { temp: 25, humidity: 82, wind: 15, condition: "ढगाळ", rain: "45%" },
+        "सोलापूर": { temp: 36, humidity: 38, wind: 18, condition: "उष्ण", rain: "2%" }
+      };
+      
+      const weather = weatherData[city];
+      const weatherInfo = document.getElementById('weatherInfo');
+      
+      if (weather && weatherInfo) {
+        weatherInfo.innerHTML = `
+          <h3>${city} चे हवामान</h3>
+          <div class="weather-grid">
+            <div class="weather-item">
+              <div>🌡️ तापमान</div>
+              <div><strong>${weather.temp}°C</strong></div>
+            </div>
+            <div class="weather-item">
+              <div>💧 आर्द्रता</div>
+              <div><strong>${weather.humidity}%</strong></div>
+            </div>
+            <div class="weather-item">
+              <div>💨 वारा</div>
+              <div><strong>${weather.wind} km/h</strong></div>
+            </div>
+            <div class="weather-item">
+              <div>🌧️ पाऊस</div>
+              <div><strong>${weather.rain}</strong></div>
+            </div>
+          </div>
+          <div style="margin-top: 15px; text-align: center; font-weight: bold; color: #006400;">
+            स्थिती: ${weather.condition}
+          </div>
+          <div style="text-align: center; margin-top: 10px; font-size: 0.9em; color: #666;">
+            अद्ययावत: ${new Date().toLocaleString('mr-IN')}
+          </div>
+        `;
+      } else {
+        weatherInfo.innerHTML = '<div class="error">हवामान माहिती उपलब्ध नाही</div>';
+      }
+    }
+
+    function showFarmingTips() {
+      const citySelect = document.getElementById('citySelect');
+      if (!citySelect) return;
+      
+      const city = citySelect.value;
+      if (!city) {
+        alert('कृपया प्रथम शहर निवडा');
+        return;
+      }
+      
+      // Updated weather data with "छत्रपती संभाजीनगर"
+      const weatherData = {
+        "पुणे": "सौम्य हवामान आहे. सोयाबीन, कापूस किंवा ज्वारीची लागवड करा.",
+        "नागपूर": "उष्ण हवामान आहे. कापूस, सोयाबीन किंवा तांदूळ चांगले येईल.",
+        "नाशिक": "थंड हवामान आहे. द्राक्ष, केळी किंवा संत्री यासाठी योग्य.",
+        "छत्रपती संभाजीनगर": "सौम्य हवामान आहे. ज्वारी, बाजरी किंवा कापूस लावा.",
+        "कोल्हापूर": "ढगाळ हवामान आहे. भात, कापूस किंवा ऊस लावा.",
+        "सोलापूर": "उष्ण हवामान आहे. ज्वारी, बाजरी किंवा कापूस योग्य."
+      };
+      
+      const tipsDiv = document.getElementById('farmingTips');
+      const tip = weatherData[city] || "हवामान अनुकूल आहे. शेतीची नियमित काळजी घ्या.";
+      
+      tipsDiv.innerHTML = `
+        <h3>🧑‍🌾 ${city} साठी शेती सल्ला</h3>
+        <p>${tip}</p>
+        <p><strong>सध्याची शिफारस:</strong> सोयाबीन, कापूस किंवा ज्वारीची लागवड करा.</p>
+      `;
+      tipsDiv.style.display = 'block';
+    }
+
+    // ==================== CROP PRICES FUNCTIONS ====================
+
+    function quickPriceCheck() {
+      const district = document.getElementById('districtSelect').value;
+      const crop = document.getElementById('cropSelect').value;
+      
+      if (!district || !crop) {
+        krushiSanvad.showNotification('❌ कृपया जिल्हा आणि पीक निवडा', 'error');
+        return;
+      }
+      
+      // Auto-select first market
+      const marketSelect = document.getElementById('marketSelect');
+      if (marketSelect.options.length > 1) {
+        marketSelect.selectedIndex = 1;
+      }
+      
+      loadCropPrices();
+    }
+
+    function loadCropPrices() {
+      const district = document.getElementById('districtSelect').value;
+      const market = document.getElementById('marketSelect').value;
+      const crop = document.getElementById('cropSelect').value;
+      
+      if (!district || !market || !crop) {
+        krushiSanvad.showNotification('❌ कृपया जिल्हा, मंडी आणि पीक निवडा', 'error');
+        return;
+      }
+      
+      // Show loading
+      const tableBody = document.querySelector('#dataTable tbody');
+      tableBody.innerHTML = `
+        <tr>
+          <td colspan="4">
+            <div class="loading">
+              <div>🔄 बाजारभाव लोड होत आहेत...</div>
+              <div style="font-size: 0.8em; margin-top: 5px;">${market} मंडी, ${crop}</div>
+            </div>
+          </td>
+        </tr>
+      `;
+
+      // Simulate API call with realistic data
+      setTimeout(() => {
+        const realisticPrices = {
+          "गहू": { min: 2800, max: 3200, unit: "क्विंटल" },
+          "ज्वारी": { min: 3200, max: 3800, unit: "क्विंटल" },
+          "बाजरी": { min: 3500, max: 4200, unit: "क्विंटल" },
+          "मका": { min: 1800, max: 2200, unit: "क्विंटल" },
+          "तूर": { min: 6500, max: 7500, unit: "क्विंटल" },
+          "हरभरा": { min: 7200, max: 8200, unit: "क्विंटल" },
+          "सोयाबीन": { min: 4500, max: 5200, unit: "क्विंटल" },
+          "कापूस": { min: 6800, max: 7800, unit: "क्विंटल" },
+          "कांदा": { min: 1200, max: 1800, unit: "क्विंटल" },
+          "टोमॅटो": { min: 800, max: 1500, unit: "क्विंटल" },
+          "मिरची": { min: 8000, max: 12000, unit: "क्विंटल" },
+          "बटाटा": { min: 1000, max: 1600, unit: "क्विंटल" },
+          "साखर": { min: 3200, max: 3500, unit: "क्विंटल" },
+          "भुईमूग": { min: 5500, max: 6500, unit: "क्विंटल" }
+        };
+        
+        const priceData = realisticPrices[crop];
+        if (!priceData) {
+          tableBody.innerHTML = `
+            <tr>
+              <td colspan="4">
+                <div class="error">
+                  ❌ ${crop} चा भाव उपलब्ध नाही
+                </div>
+              </td>
+            </tr>
+          `;
+          return;
+        }
+        
+        const randomPrice = Math.floor(Math.random() * (priceData.max - priceData.min + 1)) + priceData.min;
+        const today = new Date().toLocaleDateString('mr-IN');
+        
+        // Generate last 5 days data
+        let tableHTML = '';
+        for (let i = 4; i >= 0; i--) {
+          const date = new Date();
+          date.setDate(date.getDate() - i);
+          const dateStr = date.toLocaleDateString('mr-IN');
+          
+          // Slight price variation for previous days
+          const dayPrice = i === 0 ? randomPrice : 
+            randomPrice - Math.floor(Math.random() * 200) + 100;
+          
+          tableHTML += `
+            <tr>
+              <td>${dateStr}</td>
+              <td>${market}</td>
+              <td>${crop}</td>
+              <td style="font-weight: bold; color: #006400;">₹${dayPrice}/${priceData.unit}</td>
+            </tr>
+          `;
+        }
+        
+        tableBody.innerHTML = tableHTML;
+        
+        // Update chart with realistic data
+        updateRealisticPriceChart(crop, market, randomPrice);
+        
+        krushiSanvad.showNotification(`✅ ${crop} चे भाव यशस्वीरित्या लोड केले`, 'success');
+        
+      }, 1500);
+    }
+
+    function updateRealisticPriceChart(crop, market, currentPrice) {
+      const ctx = document.getElementById('priceChart').getContext('2d');
+      
+      if (priceChart) {
+        priceChart.destroy();
+      }
+      
+      // Generate realistic date labels (last 7 days)
+      const dates = [];
+      for (let i = 6; i >= 0; i--) {
+        const date = new Date();
+        date.setDate(date.getDate() - i);
+        dates.push(date.toLocaleDateString('mr-IN'));
+      }
+      
+      // Generate realistic price trend
+      const prices = [];
+      const basePrice = currentPrice - 150;
+      
+      for (let i = 0; i < 7; i++) {
+        const variation = Math.floor(Math.random() * 100) - 25;
+        prices.push(basePrice + (i * 25) + variation);
+      }
+      
+      const chartConfig = {
+        type: currentGraphType,
+        data: {
+          labels: dates,
+          datasets: [{
+            label: `${crop} भाव - ${market} (₹/क्विंटल)`,
+            data: prices,
+            borderColor: '#006400',
+            backgroundColor: currentGraphType === 'line' ? 'rgba(0, 100, 0, 0.1)' : 
+                             currentGraphType === 'bar' ? 'rgba(0, 100, 0, 0.7)' : 
+                             ['#006400', '#228b22', '#4caf50', '#66bb6a', '#81c784', '#a5d6a7', '#c8e6c9'],
+            borderWidth: currentGraphType === 'line' ? 3 : 2,
+            fill: currentGraphType === 'line',
+            tension: 0.4
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true,
+              position: 'top',
+              labels: {
+                color: '#006400',
+                font: {
+                  size: 12
+                }
+              }
+            },
+            title: {
+              display: true,
+              text: `${crop} - ${market} मंडी भाव तपशील`,
+              color: '#006400',
+              font: {
+                size: 16,
+                weight: 'bold'
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return `भाव: ₹${context.parsed.y}/क्विंटल`;
+                }
+              }
+            }
+          },
+          scales: currentGraphType !== 'pie' ? {
+            y: {
+              beginAtZero: false,
+              title: {
+                display: true,
+                text: 'किंमत (₹)',
+                color: '#006400'
+              },
+              ticks: {
+                callback: function(value) {
+                  return '₹' + value;
+                }
+              }
+            },
+            x: {
+              title: {
+                display: true,
+                text: 'तारीख',
+                color: '#006400'
+              }
+            }
+          } : {}
+        }
+      };
+      
+      priceChart = new Chart(ctx, chartConfig);
+    }
+
+    function changeGraphType(type) {
+      currentGraphType = type;
+      
+      // Update button states
+      document.querySelectorAll('.graph-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.target.classList.add('active');
+      
+      // Reload chart if we have data
+      const crop = document.getElementById('cropSelect').value;
+      const market = document.getElementById('marketSelect').value;
+      
+      if (crop && market) {
+        // Get current price from table
+        const currentPriceCell = document.querySelector('#dataTable tbody tr:last-child td:last-child');
+        if (currentPriceCell) {
+          const priceText = currentPriceCell.textContent;
+          const priceMatch = priceText.match(/₹(\d+)/);
+          if (priceMatch) {
+            const currentPrice = parseInt(priceMatch[1]);
+            updateRealisticPriceChart(crop, market, currentPrice);
+          }
+        }
+      }
+    }
+
+    function downloadGraph() {
+      if (!priceChart) {
+        alert('प्रथम ग्राफ तयार करा');
+        return;
+      }
+      
+      const link = document.createElement('a');
+      link.download = 'mandi-bhav-graph.png';
+      link.href = priceChart.toBase64Image();
+      link.click();
+    }
+
+    function toggleAutoRefresh() {
+      const btn = document.getElementById('refreshBtn');
+      
+      if (refreshInterval) {
+        clearInterval(refreshInterval);
+        refreshInterval = null;
+        btn.innerHTML = '🔄 Auto Refresh';
+        btn.classList.remove('active');
+        krushiSanvad.showNotification('⏹️ आपोआप भाव अपडेट थांबवले', 'info');
+      } else {
+        const crop = document.getElementById('cropSelect').value;
+        if (!crop) {
+          krushiSanvad.showNotification('⚠️ प्रथम पीक निवडा', 'warning');
+          return;
+        }
+        
+        refreshInterval = setInterval(() => {
+          loadCropPrices();
+          krushiSanvad.showNotification('🔁 भाव अपडेट केले', 'success');
+        }, 15000); // 15 seconds
+        
+        btn.innerHTML = '⏹️ अपडेट थांबवा';
+        btn.classList.add('active');
+        krushiSanvad.showNotification('🔁 आपोआप भाव अपडेट सुरू केले (प्रत्येक १५ सेकंदांनी)', 'success');
+      }
+    }
+
+    // ==================== DISEASE DETECTION FUNCTIONS ====================
+
+    function handleImageUpload(event) {
+      const file = event.target.files[0];
+      const imagePreview = document.getElementById('imagePreview');
+      
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          imagePreview.innerHTML = `<img src="${e.target.result}" class="disease-image-preview" alt="Uploaded Image">`;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function analyzeDisease() {
+      const fileInput = document.getElementById('diseaseImage');
+      const cropType = document.getElementById('cropTypeSelect').value;
+      
+      if (!fileInput.files.length || !cropType) {
+        alert('कृपया प्रतिमा आणि पीक प्रकार निवडा');
+        return;
+      }
+      
+      const diseaseResult = document.getElementById('diseaseResult');
+      diseaseResult.innerHTML = '<div class="loading">प्रतिमा विश्लेषण करत आहे... रोग ओळखला जात आहे...</div>';
+      
+      setTimeout(() => {
+        const diseases = {
+          "गहू": ["रस्ता तपेदिक", "पिवळा रोग"],
+          "कापूस": ["कापूस गळ", "पानांचा कोळशा"],
+          "सोयाबीन": ["सोयाबीन रस्ता", "पिवळा मोझेक"],
+          "तूर": "विल्ट रोग",
+          "कांदा": ["पांढरा गळ", "पिवळा रोग"],
+          "टोमॅटो": ["अर्ली ब्लाइट", "लेट ब्लाइट"]
+        };
+        
+        const cropDiseases = diseases[cropType] || ["सामान्य रोग"];
+        const randomDisease = Array.isArray(cropDiseases) 
+          ? cropDiseases[Math.floor(Math.random() * cropDiseases.length)]
+          : cropDiseases;
+        
+        const treatments = {
+          "रस्ता तपेदिक": "प्रोपिकोनाझोल 0.1% छटा",
+          "पिवळा रोग": "मायक्रोन्युट्रिएंट्सचा वापर करा",
+          "कापूस गळ": "फंगीसायड्सचा वापर करा",
+          "पानांचा कोळशा": "मॅन्कोझेब 0.2% छटा",
+          "विल्ट रोग": "रोगप्रतिकारक जाती वापरा",
+          "पांढरा गळ": "कार्बेंडाझिम 1g/लीटर",
+          "अर्ली ब्लाइट": "क्लोरोथॅलोनिल 0.2%",
+          "लेट ब्लाइट": "मेटॅलॅक्सिल 0.1%"
+        };
+        
+        diseaseResult.innerHTML = `
+          <h3>✅ रोग ओळखला: ${randomDisease}</h3>
+          <p><strong>पीक:</strong> ${cropType}</p>
+          <p><strong>उपचार:</strong> ${treatments[randomDisease] || "तज्ञ सल्ला घ्या"}</p>
+          <p><strong>आतापर्यंतचे निकाल:</strong> ९२% अचूक</p>
+        `;
+
+        showDiseaseSuggestions(randomDisease, cropType);
+      }, 2000);
+    }
+
+    function showDiseaseSuggestions(disease, cropType) {
+      const suggestions = {
+        "रस्ता तपेदिक": "नीम तेलाचा फवारणी करा. रोगग्रस्त झाडे काढून टाका.",
+        "पिवळा रोग": "मायक्रोन्युट्रिएंट्सचा वापर करा. पाण्याचे व्यवस्थापन करा.",
+        "कापूस गळ": "फंगीसायड्सचा वापर करा. मोरं शेती पद्धत वापरा.",
+        "विल्ट रोग": "रोगप्रतिकारक जाती वापरा. माती उपचार करा."
+      };
+      
+      const suggestion = suggestions[disease] || "तज्ञ सल्ला घ्या. नियमित निरीक्षण करा.";
+      
+      const suggestionsDiv = document.getElementById('diseaseSuggestions');
+      suggestionsDiv.innerHTML = `
+        <h3>💡 उपाय सूचना</h3>
+        <p><strong>रोग:</strong> ${disease}</p>
+        <p><strong>पीक:</strong> ${cropType}</p>
+        <p><strong>सूचना:</strong> ${suggestion}</p>
+        <p><strong>तज्ञ संपर्क:</strong> 📞 1800-123-4567</p>
+      `;
+    }
+
+    function showPreventionTips() {
+      const tipsDiv = document.getElementById('preventionTips');
+      tipsDiv.innerHTML = `
+        <h3>🛡️ रोग प्रतिबंध सल्ला</h3>
+        <div class="tips-grid">
+          <div class="tip-card">
+            <h4>🌱 प्रतिबंधात्मक उपाय</h4>
+            <ul>
+              <li>निरोगी बियाणे वापरा</li>
+              <li>माती उपचार करा</li>
+              <li>फेरफटका पद्धत वापरा</li>
+              <li>रोगप्रतिरोधक जाती निवडा</li>
+            </ul>
+          </div>
+          <div class="tip-card">
+            <h4>🔍 नियमित तपासणी</h4>
+            <ul>
+              <li>दर ७ दिवसांनी पिके तपासा</li>
+              <li>पाने, खोड, फुले तपासा</li>
+              <li>कीटकांची लक्षणे पहा</li>
+              <li>मातीची चाचणी करा</li>
+            </ul>
+          </div>
+          <div class="tip-card">
+            <h4>💊 नैसर्गिक उपचार</h4>
+            <ul>
+              <li>नीम तेल छटा</li>
+              <li>गोमूत्र स्प्रे</li>
+              <li>लसण-मिरची स्प्रे</li>
+              <li>तूप काढा</li>
+            </ul>
+          </div>
+          <div class="tip-card">
+            <h4>📞 आणीबाणी उपाय</h4>
+            <ul>
+              <li>तज्ञांचा सल्ला घ्या</li>
+              <li>कृषी अधिकाऱ्यांशी संपर्क करा</li>
+              <li>औषधांचा योग्य वापर करा</li>
+              <li>संसर्ग झालेले भाग काढा</li>
+            </ul>
+          </div>
+        </div>
+      `;
+      tipsDiv.style.display = 'block';
+    }
+
+    function clearImage() {
+      document.getElementById('diseaseImage').value = '';
+      document.getElementById('imagePreview').innerHTML = '';
+      document.getElementById('diseaseResult').innerHTML = '';
+      document.getElementById('diseaseSuggestions').innerHTML = '';
+      document.getElementById('preventionTips').style.display = 'none';
+    }
+
+    // ==================== PROFIT CALCULATOR FUNCTIONS ====================
+
+    function calculateProfit() {
+      const crop = document.getElementById('profitCropSelect').value;
+      const landArea = parseFloat(document.getElementById('landArea').value);
+      const expectedYield = parseFloat(document.getElementById('expectedYield').value);
+      const marketPrice = parseFloat(document.getElementById('marketPrice').value);
+      
+      if (!crop || !landArea || !expectedYield || !marketPrice) {
+        alert('कृपया सर्व फील्ड भरा');
+        return;
+      }
+      
+      const totalYield = landArea * expectedYield;
+      const totalRevenue = totalYield * marketPrice;
+      
+      const costPerAcre = {
+        "गहू": 15000, "ज्वारी": 12000, "बाजरी": 11000, "मका": 18000,
+        "तूर": 20000, "हरभरा": 18000, "सोयाबीन": 22000, "कापूस": 35000,
+        "कांदा": 25000, "टोमॅटो": 30000, "मिरची": 40000, "बटाटा": 22000
+      };
+
+      const costPerAcreValue = costPerAcre[crop] || 20000;
+      const totalCost = landArea * costPerAcreValue;
+      const netProfit = totalRevenue - totalCost;
+      const profitPercentage = ((netProfit / totalCost) * 100).toFixed(2);
+
+      const profitResult = document.getElementById('profitResult');
+      profitResult.innerHTML = `
+        <h3>🧮 नफा गणना निकाल</h3>
+        <p><strong>पीक:</strong> ${crop}</p>
+        <p><strong>एकूण उत्पादन:</strong> ${totalYield.toFixed(2)} क्विंटल</p>
+        <p><strong>एकूण उत्पन्न:</strong> ₹${totalRevenue.toFixed(2)}</p>
+        <p><strong>एकूण खर्च:</strong> ₹${totalCost.toFixed(2)}</p>
+        <p><strong>निव्वळ नफा:</strong> ₹${netProfit.toFixed(2)}</p>
+        <p><strong>नफा टक्केवारी:</strong> ${profitPercentage}%</p>
+        ${netProfit > 0 ? 
+          '<p style="color: green; font-weight: bold;">✅ हे पीक फायद्याचे आहे!</p>' : 
+          '<p style="color: red; font-weight: bold;">⚠️ हे पीक तोट्यात आहे!</p>'
+        }
+      `;
+      profitResult.style.display = 'block';
+      
+      // Save to user profile if logged in
+      if (krushiSanvad.isLoggedIn) {
+        const farmData = {
+          crop: crop,
+          landArea: landArea,
+          expectedYield: expectedYield,
+          marketPrice: marketPrice,
+          totalRevenue: totalRevenue,
+          totalCost: totalCost,
+          netProfit: netProfit,
+          calculatedDate: new Date().toLocaleDateString('mr-IN')
+        };
+        
+        krushiSanvad.krushiSaveFarmDetails(farmData);
+      }
+    }
+
+    function resetCalculator() {
+      document.getElementById('profitCropSelect').value = '';
+      document.getElementById('landArea').value = '';
+      document.getElementById('expectedYield').value = '';
+      document.getElementById('marketPrice').value = '';
+      document.getElementById('profitResult').style.display = 'none';
+    }
+
+    function showCropCalendar() {
+      const calendarDiv = document.getElementById('cropCalendar');
+      calendarDiv.innerHTML = `
+        <h3>📅 पीक कॅलेंडर - महाराष्ट्र</h3>
+        <div class="calendar-grid">
+          <div class="season-card">
+            <h4>🌱 खरीप (जून-ऑक्टोबर)</h4>
+            <p><strong>पिके:</strong> धान, ज्वारी, बाजरी, कापूस, सोयाबीन</p>
+            <p><strong>सल्ला:</strong> पावसाळ्यासाठी योग्य, पुरेशा पाण्याची व्यवस्था करा</p>
+          </div>
+          <div class="season-card">
+            <h4>🌾 रबी (नोव्हेंबर-मार्च)</h4>
+            <p><strong>पिके:</strong> गहू, ज्वारी, हरभरा, भुईमूग, कांदा</p>
+            <p><strong>सल्ला:</strong> थंड हवामानात वाढणारी पिके, कमी पाणी लागते</p>
+          </div>
+          <div class="season-card">
+            <h4>☀️ उन्हाळी (एप्रिल-जून)</h4>
+            <p><strong>पिके:</strong> बटाटा, कांदा, भेंडी, मिरची, काकडी</p>
+            <p><strong>सल्ला:</strong> उन्हाळ्यातील पिके, सिंचनावर अवलंबून</p>
+          </div>
+          <div class="season-card">
+            <h4>🍎 बागायती (संपूर्ण वर्ष)</h4>
+            <p><strong>पिके:</strong> द्राक्ष, केळी, संत्रा, आंबा, नारळ</p>
+            <p><strong>सल्ला:</strong> दीर्घकालीन गुंतवणूक, सतत काळजी आवश्यक</p>
+          </div>
+        </div>
+      `;
+      calendarDiv.style.display = 'block';
+    }
+
+    // ==================== FEEDBACK FUNCTION ====================
+
+    function submitFeedback() {
+      const name = document.getElementById('userName').value;
+      const email = document.getElementById('userEmail').value;
+      const feedback = document.getElementById('userFeedback').value;
+      
+      if (!name || !email || !feedback) {
+        alert('कृपया सर्व फील्ड भरा');
+        return;
+      }
+      
+      const feedbackMessage = document.getElementById('feedbackMessage');
+      feedbackMessage.innerHTML = `
+        <div class="success">
+          <h3>✅ अभिप्राय पाठवला गेला!</h3>
+          <p>धन्यवाद ${name}, तुमचा अभिप्राय आम्हाला मिळाला आहे.</p>
+          <p>आम्ही लवकरच तुमच्याशी संपर्क साधू.</p>
+        </div>
+      `;
+      feedbackMessage.style.display = 'block';
+      
+      document.getElementById('userName').value = '';
+      document.getElementById('userEmail').value = '';
+      document.getElementById('userFeedback').value = '';
+      
+      setTimeout(() => {
+        feedbackMessage.style.display = 'none';
+      }, 5000);
+    }
+
+    // ==================== MARKET POPULATION ====================
+
+    document.getElementById('districtSelect').addEventListener('change', function() {
+      const district = this.value;
+      const marketSelect = document.getElementById('marketSelect');
+      
+      if (!marketSelect) return;
+      
+      marketSelect.innerHTML = '<option value="">-- मंडी निवडा --</option>';
+      
+      if (district) {
+        // Updated markets with "छत्रपती संभाजीनगर" instead of "औरंगाबाद"
+        const markets = {
+          "पुणे": ["पुणे एपीएमसी", "बारामती मंडी", "शिरूर मंडी", "जुन्नर मंडी", "भोर मंडी"],
+          "नागपूर": ["नागपूर एपीएमसी", "कामठी मंडी", "उमरेड मंडी", "काटोल मंडी", "नरखेड मंडी"],
+          "नाशिक": ["नाशिक एपीएमसी", "मालेगाव मंडी", "इगतपुरी मंडी", "सिन्नर मंडी", "येवला मंडी"],
+          "छत्रपती संभाजीनगर": ["छत्रपती संभाजीनगर एपीएमसी", "जालना मंडी", "वैजापूर मंडी", "गंगापूर मंडी", "सिल्लोड मंडी"],
+          "कोल्हापूर": ["कोल्हापूर एपीएमसी", "इचलकरंजी मंडी", "गडहिंग्लज मंडी", "कागल मंडी", "शिरोळ मंडी"],
+          "सोलापूर": ["सोलापूर एपीएमसी", "बार्शी मंडी", "मोहोळ मंडी", "पंढरपूर मंडी", "मंगळवेढा मंडी"],
+          "अमरावती": ["अमरावती एपीएमसी", "चांदूर मंडी", "धारणी मंडी", "अचलपूर मंडी", "वरुड मंडी"],
+          "लातूर": ["लातूर एपीएमसी", "उदगीर मंडी", "निलंगा मंडी", "अहमदपूर मंडी", "औसा मंडी"]
+        };
+        
+        const districtMarkets = markets[district] || [district + " मुख्य मंडी"];
+        districtMarkets.forEach(market => {
+          const option = document.createElement('option');
+          option.value = market;
+          option.textContent = market;
+          marketSelect.appendChild(option);
+        });
+        
+        krushiSanvad.showNotification(`🏪 ${districtMarkets.length} मंड्या उपलब्ध`, 'info');
+      }
+    });
+
+    // ==================== INITIALIZE APP ====================
+
+    window.addEventListener('load', function() {
+      console.log("✅ Agri AI App Loaded Successfully!");
+      console.log("Demo Login: Email: kisan, Password: 123456");
+    });
+
+  </script>
+</body>
+</html>
